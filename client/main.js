@@ -45,9 +45,9 @@ Router.route("/task/:_id", {
     
     action: function(){
         // TODO: Grab task by user and ID
-        
         this.render("navbar", {to: "header"});
-        this.render("taskPage", {to: "main"});
+        Meteor.user() ? this.render("taskPage", {to: "main"}) :
+            this.render("landingPage", {to: "main"});
     }
 });
 /**
