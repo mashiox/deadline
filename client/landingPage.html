@@ -1,3 +1,19 @@
 <template name="landingPage">
-    <p>Landing Page</p>
+    {{#if currentUser}}
+        {{> loggedIn }}
+    {{else}}
+        {{> loggedOut }}
+    {{/if}}
+</template>
+
+<template name="loggedOut">
+    <p>
+        you are logged out
+    </p>
+</template>
+
+<template name="loggedIn">
+    <p>
+        you are logged IN
+    </p>
 </template>
