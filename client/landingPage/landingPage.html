@@ -43,12 +43,14 @@
 
 <template name="taskList">
     {{#each task}}
-        <a href="/task/{{_id}}" class="list-group-item taskItem">
-            <span class="badge">{{children.length}}</span>
-            {{title}}
-            <p>
-                <i>{{desc}}</i>
-            </p>
-        </a>
+        {{#unless isChild }}
+            <a href="/task/{{_id}}" class="list-group-item taskItem">
+                <span class="badge">{{children.length}}</span>
+                {{title}}
+                <p>
+                    <i>{{desc}}</i>
+                </p>
+            </a>
+        {{/unless}}
     {{/each}}
 </template>

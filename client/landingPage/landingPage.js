@@ -33,7 +33,9 @@ Template.loggedIn.events({
             owner: Meteor.userId(),
             children: [],
             clockIn: [],
-            notes: ""
+            notes: "",
+            isChild: false,
+            parent: ""
         });
     },
     

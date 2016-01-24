@@ -45,6 +45,24 @@ Template.taskPage.events({
         // WARNING: INSECURE
         Tasks.update({_id: Session.get("taskId")}, task);
         Session.set("activeClockIns", true);
+    },
+    
+    'click button.newChildTask': function(event){
+        event.preventDefault();
+        var taskId = Tasks.insert({
+            title: "New subtask",
+            desc: "",
+            owner: Meteor.userId(),
+            children: [],
+            clockIn: [],
+            notes: "",
+            isChild: true,
+            parent: Session.get("taskId")
+        });
+        var task = Tasks.findOne({_id: Session.get("taskId") });
+        task.children.push(taskId);
+        // WARNING: INSECURE
+        Tasks.update({_id: Session.get("taskId")}, task); 
     }
 });
 
