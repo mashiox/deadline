@@ -14,6 +14,28 @@
 
 <template name="loggedIn">
     <h2>Tasks</h2>
+    
+    <!-- Options Menu -->
+    <ul>
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default addTask">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    New Task
+                </button>
+                <button type="button" class="btn btn-default removeTask">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                    Delete Task
+                </button>
+                <button type="button" class="btn btn-default clockOut">
+                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+                    Clock Out
+                </button>
+            </div>
+        </div>
+    </ul>
+    
+    <!-- Task list -->
     <ul>
         {{> taskList}}
     </ul>
