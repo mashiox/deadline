@@ -13,7 +13,20 @@
 </template>
 
 <template name="loggedIn">
-    <p>
-        you are logged IN
-    </p>
+    <h2>Tasks</h2>
+    <ul>
+        {{> taskList}}
+    </ul>
+</template>
+
+<template name="taskList">
+    {{#each task}}
+        <a href="/task/{{_id}}" class="list-group-item taskItem">
+            <span class="badge">{{children.length}}</span>
+            {{title}}
+            <p>
+                <i>{{desc}}</i>
+            </p>
+        </a>
+    {{/each}}
 </template>

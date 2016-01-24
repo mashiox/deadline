@@ -1,3 +1,96 @@
 <template name="taskPage">
-    <p>Task Page</p>
+    {{#with task}}
+    <!-- Title Row -->
+    <div class="row">
+        <div class="col-md-9">
+            {{> taskTitle }}
+            {{#if isClockedIn }}
+            You are clocked in
+            {{/if}}
+        </div>
+        <div class="col-md-3"> 
+            <span class="glyphicon glyphicon-plus" aria-hidden="true">New subtask</span>
+        </div>
+    </div>
+    <!-- Description Row -->
+    <div class="row">
+        <div class="col-md-12">
+            {{> taskDescription }}
+        </div>
+    </div>
+    <!-- Child Tasks Row -->
+    <div class="row">
+        <div class="col-md-12">
+            {{#each child in children }}
+                {{#with getChildTask child }}
+                    <span class="label label-success childLabel">
+                        <a href="/task/{{_id}}">{{title}}</a>
+                    </span>
+                {{/with}}
+            {{/each}}
+        </div>
+    </div>
+    <!-- Notes Row -->
+    <div class="row">
+        <div class="col-md-12">
+            {{> taskNotes }}
+        </div>
+    </div>
+    <!-- Timetable Row -->
+    <div class="row well timetable">
+        {{#each clockIn }}
+            {{> clockInList}}
+        {{/each}}
+    </div>
+    <!-- Operation Row -->
+    <div class="row">
+        <div class="col-md-10">
+        </div>
+        <div class="col-md-2">
+            {{> punchButton }}
+        </div>
+    </div>
+    {{/with}}
+</template>
+
+<template name="taskTitle">
+    <span class="h2">
+        {{> editableText collection="deadline_tasks" field="title" }}
+    </span>
+</template>
+
+<template name="taskDescription">
+    <p class="taskDesc">
+        <i>{{> editableText options=optionsHelper }}</i>
+    </p>
+</template>
+
+<template name="clockInList">
+    <div class="col-md-4">  <!-- Start time -->
+        {{ formatTime punchIn }}
+    </div>
+    
+    <div class="col-md-4">  <!-- End Time -->
+    {{#if userIsClockedIn }}
+        {{ timeInterval }}
+    {{else}}
+        {{ formatTime punchOut }}
+    {{/if}}
+    </div>
+    
+    <div class="col-md-4">  <!-- Notes -->
+        Filler filler filler
+    </div>
+</template>
+
+<template name="punchButton">
+    {{#if anyClockIns }}
+        <span class="glyphicon glyphicon-stop clockOut" aria-hidden="true">Clock Out</span>
+    {{else}}
+        <span class="glyphicon glyphicon-play clockIn" aria-hidden="true">Clock In</span>
+    {{/if}}
+</template>
+
+<template name="taskNotes">
+    {{> editableText options=optionsHelper }}
 </template>

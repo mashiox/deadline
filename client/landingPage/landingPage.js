@@ -9,3 +9,16 @@ Template.landingPage.events({
       // do thing when 'click thing' happens
     }*/
 });
+
+Template.taskList.helpers({
+    task: function(){
+        return Tasks.find({
+            owner: Meteor.userId() 
+        })
+    }
+})
+/*
+Template.taskList.events({
+    'click a.taskItem': function(event){
+    }
+})*/

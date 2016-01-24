@@ -1,0 +1,25 @@
+.taskDesc{
+    padding-top: 10px;
+    margin-left: 25px;
+}
+
+span.childLabel:hover {
+    border: 1px solid navy;
+}
+
+span.childLabel a:hover {
+    text-decoration: none;
+}
+
+span.childLabel a {
+    color: white;
+}
+
+div.timetable {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+div.timetable div{
+    padding-bottom: 10px;
+}

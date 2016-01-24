@@ -46,11 +46,18 @@ Router.route("/task/:_id", {
     action: function(){
         // TODO: Grab task by user and ID
         this.render("navbar", {to: "header"});
-        Meteor.user() ? this.render("taskPage", {to: "main"}) :
+        if (Meteor.user()){
+            Session.set("taskId", this.params._id);
+            var task = Tasks.findOne({_id: this.params._id});
+            var activeClocks = anyClockIns(task.clockIn);   // defined in taskPage.js
+            Session.set("activeClockIns", activeClocks);
+            this.render("taskPage", {to: "main"});
+        }
+        else {
             this.render("landingPage", {to: "main"});
+        }
     }
 });
 /**
  * End of Iron:Router
  */
-
