@@ -9,13 +9,10 @@ Template.taskPage.helpers({
         return Tasks.findOne({_id: taskId, owner: Meteor.userId()})
     },
     isClockedIn: function(){
-        return this.clockIn[this.clockIn.length-1].punchOut === -1;
+        return this.clockIn.length ? this.clockIn[this.clockIn.length-1].punchOut === -1 : false;
     },
     anyClockIns: function(){
         return Session.get("activeClockIns");
-        /*return this.clockIn.map(function(n){
-            return n.punchOut;
-        }).sort() < 0*/
     }
 });
 
@@ -23,8 +20,8 @@ Template.taskPage.events({
     /*'click thing': function () {
       // do thing when 'click thing' happens
     }*/
-    'click span.clockOut': function(){
-        var task = Tasks.findOne({_id: Session.get("taskId")});
+    'click button.clockOut': function(){
+        /*var task = Tasks.findOne({_id: Session.get("taskId")});
         task.clockIn = task.clockIn.map(function(punch){
             if ( punch.punchOut === -1 ){
                 punch.punchOut = new Date();
@@ -32,11 +29,13 @@ Template.taskPage.events({
             return punch;
         });
         // WARNING: INSECURE
-        Tasks.update({_id: Session.get("taskId")}, task);
+        Tasks.update({_id: Session.get("taskId")}, task);*/
+        var ancestorId = findAncestor( Session.get("taskId") );
+        globalClockOut(ancestorId);
         Session.set("activeClockIns", false);
     },
     
-    'click span.clockIn': function(){
+    'click button.clockIn': function(){
         var task = Tasks.findOne({_id: Session.get("taskId")});
         task.clockIn.push({
             punchIn: new Date(),

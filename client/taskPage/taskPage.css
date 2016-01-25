@@ -3,6 +3,10 @@
     margin-left: 25px;
 }
 
+span.childLabel {
+    display: inline-block
+}
+
 span.childLabel:hover {
     border: 1px solid navy;
 }
@@ -12,6 +16,10 @@ span.childLabel a:hover {
 }
 
 span.childLabel a {
+    color: white;
+}
+
+span.parentLabel a{
     color: white;
 }
 

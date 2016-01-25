@@ -49,7 +49,9 @@ Router.route("/task/:_id", {
         if (Meteor.user()){
             Session.set("taskId", this.params._id);
             var task = Tasks.findOne({_id: this.params._id});
-            var activeClocks = anyClockIns(task.clockIn);   // defined in taskPage.js
+            //var activeClocks = anyClockIns(task.clockIn);   // defined in taskPage.js
+            var ancestorId = findAncestor(this.params._id);
+            var activeClocks = !isTaskInactive(ancestorId);
             Session.set("activeClockIns", activeClocks);
             this.render("taskPage", {to: "main"});
         }

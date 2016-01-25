@@ -26,6 +26,13 @@
     <!-- Child Tasks Row -->
     <div class="row">
         <div class="col-md-12">
+            {{#if parent }}
+                {{#with getChildTask parent }}
+                    <span class="label label-primary parentLabel">
+                        <a href="/task/{{_id}}">{{title}}</a>
+                    </span>&nbsp;/&nbsp; 
+                {{/with}}
+            {{/if}}
             {{#each child in children }}
                 {{#with getChildTask child }}
                     <span class="label label-success childLabel">
@@ -49,9 +56,9 @@
     </div>
     <!-- Operation Row -->
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-9">
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             {{> punchButton }}
         </div>
     </div>
@@ -89,11 +96,19 @@
 </template>
 
 <template name="punchButton">
+    <div class="btn-group" role="group" aria-label="...">
     {{#if anyClockIns }}
-        <span class="glyphicon glyphicon-stop clockOut" aria-hidden="true">Clock Out</span>
+        <button type="button" class="btn btn-default clockOut">
+            <span class="glyphicon glyphicon-stop clockOut" aria-hidden="true"></span>
+            Clock Out
+        </button>
     {{else}}
-        <span class="glyphicon glyphicon-play clockIn" aria-hidden="true">Clock In</span>
+        <button type="button" class="btn btn-default clockIn">
+            <span class="glyphicon glyphicon-play clockIn" aria-hidden="true"></span>
+            Clock In
+        </button>
     {{/if}}
+    </div>
 </template>
 
 <template name="taskNotes">

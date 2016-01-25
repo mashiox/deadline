@@ -47,6 +47,9 @@
             <a href="/task/{{_id}}" class="list-group-item taskItem">
                 <span class="badge">{{children.length}}</span>
                 {{title}}
+                {{#unless inactiveTask _id }}
+                    <span class="label label-success">Active</span>
+                {{/unless}}
                 <p>
                     <i>{{desc}}</i>
                 </p>
