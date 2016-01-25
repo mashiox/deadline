@@ -14,6 +14,10 @@
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     New subtask
                 </button>
+                <button type="button" class="btn btn-default deleteTask">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                    Delete Task
+                </button>
             </div>
         </div>
     </div>
@@ -91,7 +95,9 @@
     </div>
     
     <div class="col-md-4">  <!-- Notes -->
-        Filler filler filler
+        {{#unless userIsClockedIn }}
+            {{ formatInterval }}
+        {{/unless}}
     </div>
 </template>
 

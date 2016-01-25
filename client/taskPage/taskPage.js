@@ -62,6 +62,22 @@ Template.taskPage.events({
         task.children.push(taskId);
         // WARNING: INSECURE
         Tasks.update({_id: Session.get("taskId")}, task); 
+    },
+    
+    'click button.deleteTask': function(event){
+        event.preventDefault();
+        var task = Tasks.findOne({_id: Session.get("taskId")});
+        if ( task.parent ){
+            var parent = Tasks.findOne({_id: task.parent});
+            parent.children = parent.children.filter(function(child){
+                return child !== task._id;
+            });
+            // WANRING: INSECURE
+            Tasks.update({_id: parent._id}, parent);
+        }
+        // WARNING: INSECURE
+        Tasks.remove({_id:Session.get("taskId")});
+        window.location = task.parent ? "/task/"+task.parent : "/";
     }
 });
 
@@ -98,7 +114,14 @@ Template.clockInList.helpers({
      * Calculates the amount of time clocked in.
      */
     timeInterval: function(){
-        return Math.floor((Session.get("currentTime") - this.punchIn)/1000 );
+        return Time.duration( Math.floor((Session.get("currentTime") - this.punchIn)/1000 ));
+    },
+    
+    /**
+     * 
+     */
+    formatInterval: function(){
+        return Time.duration( Math.floor( (this.punchOut-this.punchIn)/1000 ) );
     },
     
     optionsHelper: function(){
