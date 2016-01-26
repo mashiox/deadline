@@ -19,7 +19,7 @@ Router.configure({
     layoutTemplate: 'ApplicationLayout',
     
     waitOn: function(){
-        // TODO: Subscribe
+        Meteor.subscribe("deadline_tasks");
         return;
     }
 });
@@ -39,12 +39,11 @@ Router.route("/", function(){
  */
 Router.route("/task/:_id", {
     waitOn: function(){
-        // TODO: Subscribe
+        Meteor.subscribe("deadline_tasks");
         return;
     },
     
     action: function(){
-        // TODO: Grab task by user and ID
         this.render("navbar", {to: "header"});
         if (Meteor.user()){
             Session.set("taskId", this.params._id);

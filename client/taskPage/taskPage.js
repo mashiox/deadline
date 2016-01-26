@@ -17,19 +17,7 @@ Template.taskPage.helpers({
 });
 
 Template.taskPage.events({
-    /*'click thing': function () {
-      // do thing when 'click thing' happens
-    }*/
     'click button.clockOut': function(){
-        /*var task = Tasks.findOne({_id: Session.get("taskId")});
-        task.clockIn = task.clockIn.map(function(punch){
-            if ( punch.punchOut === -1 ){
-                punch.punchOut = new Date();
-            }
-            return punch;
-        });
-        // WARNING: INSECURE
-        Tasks.update({_id: Session.get("taskId")}, task);*/
         var ancestorId = findAncestor( Session.get("taskId") );
         globalClockOut(ancestorId);
         Session.set("activeClockIns", false);
@@ -41,27 +29,17 @@ Template.taskPage.events({
             punchIn: new Date(),
             punchOut: -1
         });
-        // WARNING: INSECURE
-        Tasks.update({_id: Session.get("taskId")}, task);
+        Meteor.call("updateTask", task);
         Session.set("activeClockIns", true);
     },
     
     'click button.newChildTask': function(event){
         event.preventDefault();
-        var taskId = Tasks.insert({
-            title: "New subtask",
-            desc: "",
-            owner: Meteor.userId(),
-            children: [],
-            clockIn: [],
-            notes: "",
-            isChild: true,
-            parent: Session.get("taskId")
+        Meteor.call("insertNewTask", Session.get("taskId"), function(error, res){
+            var task = Tasks.findOne({_id: Session.get("taskId") });
+            task.children.push(res);
+            Meteor.call("updateTask", task);
         });
-        var task = Tasks.findOne({_id: Session.get("taskId") });
-        task.children.push(taskId);
-        // WARNING: INSECURE
-        Tasks.update({_id: Session.get("taskId")}, task); 
     },
     
     'click button.deleteTask': function(event){
@@ -72,12 +50,17 @@ Template.taskPage.events({
             parent.children = parent.children.filter(function(child){
                 return child !== task._id;
             });
-            // WANRING: INSECURE
-            Tasks.update({_id: parent._id}, parent);
+            Meteor.call("updateTask", parent, function(error, res){
+                Meteor.call("deleteTask", task, function(delError, delRes){
+                    window.location = task.parent;
+                });
+            });
         }
-        // WARNING: INSECURE
-        Tasks.remove({_id:Session.get("taskId")});
-        window.location = task.parent ? "/task/"+task.parent : "/";
+        else {
+            Meteor.call("deleteTask", task, function(error, res){
+                window.location = "/";
+            });
+        }
     }
 });
 

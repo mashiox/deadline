@@ -1,13 +1,7 @@
 Template.landingPage.helpers({
-    /*methodName: function () {
-      // do
-    }*/
 });
 
 Template.landingPage.events({
-    /*'click thing': function () {
-      // do thing when 'click thing' happens
-    }*/
 });
 
 Template.taskList.helpers({
@@ -21,26 +15,11 @@ Template.taskList.helpers({
         return isTaskInactive(taskId);
     }
 })
-/*
-Template.taskList.events({
-    'click a.taskItem': function(event){
-    }
-})*/
 
 Template.loggedIn.events({
     'click button.addTask': function(event){
         event.preventDefault();
-        // WARNING: INSECURE
-        return Tasks.insert({
-            title: "New Task",
-            desc: "",
-            owner: Meteor.userId(),
-            children: [],
-            clockIn: [],
-            notes: "",
-            isChild: false,
-            parent: ""
-        });
+        Meteor.call("insertNewTask", "");
     },
     
     'click button.clockOut': function(event){
@@ -53,9 +32,8 @@ Template.loggedIn.events({
             })
             return task; 
         });
-        // WARNING: INSECURE
         tasks.map( function(task){
-            Tasks.update({_id: task._id}, task );
+            Meteor.call("updateTask", task)
         });
     }
 })
@@ -91,8 +69,7 @@ globalClockOut = function(taskId){
             if (clock.punchOut === -1) clock.punchOut = new Date();
             return clock;
         });
-        // WARNING: INSECURE
-        Tasks.update({_id: task._id}, task);
+        Meteor.call("updateTask", task);
     }
     task.children.forEach( globalClockOut );
 }
